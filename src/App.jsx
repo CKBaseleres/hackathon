@@ -63,7 +63,8 @@ const MainContent = (props) => {
                             <Router>
                                 <Routes>
                                 <Route path="/applications" element={<Applications/>}/>
-                                <Route path="/applications/:id" element={<Applicant />} /> 
+                                <Route path="/applications/:id" element={<Applicant />} />
+
                                 </Routes>    
                             </Router>
                             
