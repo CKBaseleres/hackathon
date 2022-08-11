@@ -115,20 +115,20 @@ const Applicant = () => {
 
     return(
         <Container>
-            <Form>
-                <Form.Group className='mb-3' controlId='formName'>
+            <Form className="form">
+                <Form.Group className='mb-3 form-group' sm controlId='formName'>
                     <Form.Label>Applicant Name:</Form.Label>
                     <Form.Control defaultValue={userData && userData.sender.emailAddress.name} disabled></Form.Control>
                 </Form.Group>
-                <Form.Group className='mb-3' controlId='formEmail'>
+                <Form.Group className='mb-3 form-group' controlId='formEmail'>
                     <Form.Label>Applicant Email Address:</Form.Label>
                     <Form.Control defaultValue={userData && userData.sender.emailAddress.address} type='email' disabled></Form.Control>
                 </Form.Group>
-                <Form.Group className='mb-3' controlId='content'>
+                <Form.Group className='mb-3 form-group' controlId='content' style={{flexBasis: "100%"}}>
                     <Form.Label>Application Content Preview</Form.Label>
-                    <FormControl as="textarea" rows={3} defaultValue={userData && userData.bodyPreview} disabled></FormControl>
+                    <FormControl as="textarea" rows={10} defaultValue={userData && userData.bodyPreview} disabled></FormControl>
                 </Form.Group>
-                <Form.Group className='mb-3' controlId='serviceLine'>
+                <Form.Group className='mb-3 form-group' controlId='serviceLine'>
                     <Form.Label>Service Line:</Form.Label>
                     <Form.Control as="select" aria-label="Default select example" name='serviceLine' onChange={handleChange}>
                         {serviceLines.map((data,i) => {
@@ -136,7 +136,7 @@ const Applicant = () => {
                         })}
                     </Form.Control>
                 </Form.Group>
-                <Form.Group className='mb-3' controlId='position'>
+                <Form.Group className='mb-3 form-group' controlId='position'>
                     <Form.Label>Position: </Form.Label>
                     <Form.Control as="select" aria-label="Default select example" name='position' onChange={handleChange}>
                         {availablePositions.map((data,i) => {
@@ -144,27 +144,32 @@ const Applicant = () => {
                         })}
                     </Form.Control>
                 </Form.Group>
-                <Button>
-                    <a href={`data:application/pdf;base64,${attachmentData}`} target='_blank' >See Attachment</a>
+                <Button style={{flexBasis: "100%"}}>
+                    <a href={`data:application/pdf;base64,${attachmentData}`} target='_blank' style={{color: "white"}}>See Attachment</a>
                 </Button>
-                <h3>Set Meeting</h3>
-                <Form.Group className='mb-3' controlId='setTime'>
-                    <Form.Label>Date: </Form.Label>
-                    <DatePicker onChange={handleChange} name='meetingDate' value={value} />
-                    <Form.Control as="select" name='meetingStartTime' onChange={handleChange}>
-                        <option value={null}>Set Start Time:</option>
-                        {availableTimes && availableTimes.map((data,i) => {
-                            return(<option key={i} value={data}>{data}</option>)
-                        })}
-                    </Form.Control>
-                    <Form.Control as="select" name='meetingEndTime' onChange={handleChange}>
-                        <option values={null}>Set End Time:</option>
-                        {availableEndTimes && availableTimes.map((data,i) => {
-                            return(<option key={i} value={data}>{data}</option>)
-                        })}
-                    </Form.Control>
-                </Form.Group>
-                <Button type="submit">Save</Button>
+
+                <div className="meeting">
+                    <h3>Set Meeting</h3>
+                    <Form.Group className='mb-3 form-group' controlId='setTime'>
+                        <Form.Label style={{marginRight: "20px"}}>Date</Form.Label>
+                        <DatePicker onChange={handleChange} name='meetingDate' value={value} />
+                        <div style={{display: "flex", justifyContent: "space-between"}}>
+                            <Form.Control as="select" name='meetingStartTime' onChange={handleChange} style={{flexBasis: "49%"}}>
+                                <option value={null}>Set Start Time:</option>
+                                {availableTimes && availableTimes.map((data,i) => {
+                                    return(<option key={i} value={data}>{data}</option>)
+                                })}
+                            </Form.Control>
+                            <Form.Control as="select" name='meetingEndTime' onChange={handleChange} style={{flexBasis: "49%"}}>
+                                <option values={null}>Set End Time:</option>
+                                {availableEndTimes && availableTimes.map((data,i) => {
+                                    return(<option key={i} value={data}>{data}</option>)
+                                })}
+                            </Form.Control>
+                        </div>
+                    </Form.Group>
+                    <Button type="submit" style={{width: "100%"}}>Save</Button>
+                </div>
             </Form>
         </Container>
     )

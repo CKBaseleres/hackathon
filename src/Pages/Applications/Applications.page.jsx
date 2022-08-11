@@ -42,9 +42,12 @@ const Applications = (props) => {
                                 <td>{data.subject}</td>
                                 <td>{data.sender.emailAddress.name}</td>
                                 <td>
-                                    <Button variant="light">
+                                    {/* <Button variant="light">
                                         <Link to={data.id}>View</Link>
-                                    </Button>
+                                    </Button> */}
+                                    <Link to={data.id}><Button variant="light">
+                                        View
+                                    </Button></Link>
                                 </td>
                             </tr>
                         )

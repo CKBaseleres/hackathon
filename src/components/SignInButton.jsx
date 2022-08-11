@@ -34,7 +34,7 @@ export const SignInButton = () => {
         // </DropdownButton>
         <div className="signin-container">
             <Button variant="outline-dark" onClick={() => handleLogin("popup")}><object type="image/svg+xml" data="https://s3-eu-west-1.amazonaws.com/cdn-testing.web.bas.ac.uk/scratch/bas-style-kit/ms-pictogram/ms-pictogram.svg" className="vertical-center"></object> 
-            Sign in with Microsoft</Button>
+            <span style={{marginLeft: "30px"}}>Sign in with Microsoft</span></Button>
         </div>
     )
 }
