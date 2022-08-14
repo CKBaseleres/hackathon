@@ -4,8 +4,12 @@
   "description": "A React single-page application calling Microsoft Graph API using MSAL.js (w/ AAD v2 endpoint)",
   "private": true,
   "dependencies": {
+    "@ampproject/remapping": "^2.2.0",
     "@azure/msal-browser": "^2.15.0",
     "@azure/msal-react": "^1.0.1",
+    "@emotion/react": "^11.10.0",
+    "@emotion/styled": "^11.10.0",
+    "@mui/icons-material": "^5.8.4",
     "bootstrap": "^4.5.3",
     "jquery": "^3.5.1",
     "popper.js": "^1.16.1",

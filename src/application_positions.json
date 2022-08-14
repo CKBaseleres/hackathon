@@ -1,0 +1,132 @@
+[
+    {
+        "service_line_code": "appsdev",
+        "service_line_label": "Applications Development and Support",
+        "positions": [
+            {
+                "code": "bi_data_tech_lead_pleiades",
+                "label": "BI Data Tech Lead - Pleiades"
+            },
+            {
+                "code": "sr_developer_tibco_mdm_java_shell_scr",
+                "label": "Sr Developer - TIBCO MDM /JAVA/Shell Scripting"
+            },
+            {
+                "code": "bi_data_tech_lead_pleiades",
+                "label": "TIBCO Analyst/Programmer"
+            },
+            {
+                "code": "bi_data_tech_lead_pleiades",
+                "label": "Sr. A/P - SAP BO"
+            },
+            {
+                "code": "bi_data_tech_lead_pleiades",
+                "label": "Business Analyst for C4C - preferably with CRM background"
+            }
+        ]
+    },
+    {
+        "service_line_code": "d&i",
+        "service_line_label": "Digital & Innovation",
+        "positions": [
+            {
+                "code": "",
+                "label": "Senior Cloud K8S DevOps"
+            },
+            {
+                "code": "",
+                "label": "Sr Analyst/Programmer - .Net/Backend"
+            },
+            {
+                "code": "",
+                "label": "Sr Analyst/Programmer - FE/HTML/ReactJs/Typescript plus factor with ReactNative"
+            },
+            {
+                "code": "",
+                "label": "Sr Analyst/Programmer C#"
+            },
+            {
+                "code": "",
+                "label": "Jr Analyst/Programmer C#"
+            }
+        ]
+    },
+    {
+        "service_line_code": "ts",
+        "service_line_label": "Tech Services",
+        "positions": [
+            {
+                "code": "",
+                "label": "Network Administrator"
+            },
+            {
+                "code": "",
+                "label": "Database Administrator DBA"
+            },
+            {
+                "code": "",
+                "label": "Project Coordinator"
+            },
+            {
+                "code": "",
+                "label": "Cyber Security Analyst"
+            },
+            {
+                "code": "",
+                "label": "L2 Generalist"
+            }
+        ]
+    },
+    {
+        "service_line_code": "fssc",
+        "service_line_label": "Finance Shared Services",
+        "positions": [
+            {
+                "code": "",
+                "label": "Senior Specialist, Accounts Payables"
+            },
+            {
+                "code": "",
+                "label": "Specialist, Accounts Payables"
+            },
+            {
+                "code": "",
+                "label": "Specialist, Treasury (AMERA)"
+            },
+            {
+                "code": "",
+                "label": "Specialist, Treasury (India)"
+            },
+            {
+                "code": "",
+                "label": "Senior GL Accountant"
+            }
+        ]
+    },
+    {
+        "service_line_code": "qa",
+        "service_line_label": "Quality Assurance",
+        "positions": [
+            {
+                "code": "",
+                "label": "Manual QA with experience in automation, API and SQL"
+            },
+            {
+                "code": "",
+                "label": "Senior Manual QA with experience in automation, API and SQL"
+            },
+            {
+                "code": "",
+                "label": "Automation QA with at least 1-2 years experience in TOSCA Automation Tool"
+            },
+            {
+                "code": "",
+                "label": "Manual QA with experience in automation, API and SQL"
+            },
+            {
+                "code": "",
+                "label": "Senior Manual QA with SAP testing experience is a plus"
+            }
+        ]
+    }
+]

@@ -1,42 +1,61 @@
 import React, {useEffect, useState} from "react";
 import { useMsal } from "@azure/msal-react";
 import { Table, Container, Button, Modal } from "react-bootstrap";
-import { Document } from "react-pdf"
 import { Navigate, Link } from "react-router-dom";
 
 import { loginRequest, graphConfig } from "../../authConfig";
 import { callMsGraph } from "../../graph";
 
-import "./Applications.styles.css"
+import "./Inbox.styles.css"
+import Header from "../../components/Header/Header.component";
+import { apiEndpoints } from "../../apiConfig";
 
-const Applications = (props) => {
+const Inbox = (props) => {
     const { instance, accounts } = useMsal();
     const [graphData, setGraphData] = useState(null);
     
-    useEffect(()=> {
-        instance.acquireTokenSilent({
+    useEffect(async ()=> {
+        const token = await instance.acquireTokenSilent({
             ...loginRequest,
             account: accounts[0]
-        }).then((response) => {
-            callMsGraph(response.accessToken, graphConfig.graphMessagesEndpoint)
-                .then(messageData => {
-                    setGraphData(messageData)
-                });
-        });
+        })
+
+        const graphData = await callMsGraph(token.accessToken, graphConfig.graphMessagesEndpoint)
+        // setGraphData(graphData)
+        const { value: graphItems } = graphData;
+
+        let savedApplicants = await fetch(apiEndpoints.getApplicants, {
+            method: "GET",
+        })
+        savedApplicants = await savedApplicants.json();
+        const { data } = savedApplicants;
+
+        if (data) {
+            // Remove Already Saved Emails
+            data.forEach((item, index, array) => {
+                const sameItem = graphItems.findIndex(graphItem => graphItem.conversationId === item.emailId)
+                graphItems.splice(sameItem, 1)
+            })
+            console.log("🚀 ~ file: Inbox.jsx ~ line 37 ~ graphItems.forEach ~ graphItems", graphItems)
+        }
+        setGraphData(graphItems)
+        
+        // console.log("🚀 ~ file: Applicant.page.jsx ~ line 65 ~ fetchUserData ~ savedApplicants", savedApplicants)
     },[])
 
     return(
         <div className="applications">
-            <Table striped bordered hover size="sm">
+            <Header title="Inbox" />
+            <Table striped bordered hover size="md">
                 <thead>
                     <tr>
-                    <th>Title</th>
+                    <th>Subject</th>
                     <th>Name</th>
                     <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    { graphData && graphData.value.map((data, i) => {
+                    { graphData && graphData.map((data, i) => {
                         return(
                             <tr key={i}>
                                 <td>{data.subject}</td>
@@ -58,4 +77,4 @@ const Applications = (props) => {
     )
 }
 
-export default Applications;
+export default Inbox;

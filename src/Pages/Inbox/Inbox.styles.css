@@ -1,3 +1,7 @@
 .applications {
     margin-top: 15px;
 }
+
+.header {
+    display: flex;
+}

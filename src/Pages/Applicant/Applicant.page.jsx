@@ -3,11 +3,19 @@ import { useMsal } from '@azure/msal-react';
 import { useLocation, useResolvedPath } from 'react-router';
 import { Container, Row, Col, Button, Form, FormLabel, FormControl } from 'react-bootstrap'
 import DatePicker from 'react-date-picker'
+import HeaderComponent from '../../components/Header/Header.component';
 
 import { graphConfig, loginRequest } from '../../authConfig'
 import { callMsGraph } from '../../graph'
 
+import service_positions_json from '../../application_positions.json';
+console.log("🚀 ~ file: Applicant.page.jsx ~ line 11 ~ service_positions_json", service_positions_json)
+
 import './Applicant.styles.css'
+import { apiEndpoints } from '../../apiConfig';
+
+// const service_positions = JSON.parse(service_positions_json);
+// console.log("🚀 ~ file: Applicant.page.jsx ~ line 15 ~ service_positions", service_positions)
 
 const Applicant = () => {
     const location = useLocation().pathname.split('/')[useLocation().pathname.split('/').length - 1]
@@ -33,31 +41,11 @@ const Applicant = () => {
         'Analyst Programmer',
         'Sr. Analyst Programmer'
     ]
-    // let availableTimes = []
-    // const availableTimes = () => {
-    //     const times = [];
-    //     for (i=8;i=17;i++) {
-    //         times.push(`i:00:00`)
-    //     }
-    //     return times;
-    // }
 
-    
-
-
-    // const fetchUser = useCallback(async () => {
-    //     const user = await instance.acquireTokenSilent({
-    //         ...loginRequest,
-    //         account: accounts[0]
-    //     })
-    //     setUserInstance(user)
-    // })
+    // console.log(service_positions_json.)
 
     useEffect(() => {
         const fetchUserData = async() => {
-            
-            // fetchUser()
-            //     .catch(err => console.log('FETCH USER INSTANCE ERROR: ', err))
             const user = await instance.acquireTokenSilent({
                 ...loginRequest,
                 account: accounts[0]
@@ -105,13 +93,87 @@ const Applicant = () => {
         setFormValue({
             name: userData && userData.sender.emailAddress.name,
             email: userData && userData.sender.emailAddress.address,
-            bodyPreview: userData && userData.bodyPreview
+            bodyPreview: userData && userData.bodyPreview,
+            emailId: userData && userData.conversationId,
+            attachmentData
         })
-    },[attachmentData])
-    
+    },[userData, attachmentData])
+
     const handleChange = (e) => {
         setFormValue(prev => ({...prev, [e.target.name]: e.target.value }))
+        console.log("🚀 ~ file: Applicant.page.jsx ~ line 114 ~ handleChange ~ setFormValue", formValue)
+
     }
+
+    // TODO: IF has date and time call graph api to set meeting.
+    const handleSave = () => {
+        console.log('FORM VALUE', formValue)
+        fetch('https://hackathon-fnc.azurewebsites.net/api/save-applicant', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify(formValue),
+        })
+            .then(res => {
+                console.log('RESDATA: ',res);
+                res.json();
+            })
+            .then(data => {
+                console.log("🚀 ~ file: Applicant.page.jsx ~ line 122 ~ handleSave ~ data", data)
+            })
+            .catch(err => {
+                console.log("🚀 ~ file: Applicant.page.jsx ~ line 125 ~ handleSave ~ err", err)
+            })
+
+        // TODO: SETUP MICROSOFT GRAPH EVENT API
+        // WHEN NO START AND END TIME EVENT WONT BE CREATED
+        // const { startDatetime, endDatetime } = buildEvent()
+
+    }
+
+    const buildEvent = () => {
+        const SUBJECT = `INITIAL INTERVIEW: ${userData.sender.emailAddress.name}`
+        const testDate = new Date();
+        if (!formValue.meetingDate) {
+            formValue.meetingDate = new Date();
+        }
+        
+        testDate.setHour(formValue.meetingStart);
+        const endSchedule = testDate.setHour(formValue.meetingEnd);
+
+        // TODO: BODY TO BE BUILD FOR CREATING EVENT
+        // {
+        //     subject: SUBJECT,
+        //     body: {
+        //         contentType: 'HTML',
+        //         content: 'SUBJECT'
+        //     },
+        //     start: {
+        //         "dateTime": testDate,
+        //         timeZone: 'Pacific Standard Time'
+        //     },
+        //     end: {
+        //         "dateTime": endSchedule,
+        //         timeZone: 'Pacific Standard Time'
+        //     },
+        //     attendees: [
+        //         {
+        //             "emailAddress": {
+        //                 "address": userData.sender.emailAddress.address,
+        //                 "name": userData.sender.emailAddress.name
+        //             },
+        //             "type": 'required'
+        //         }  
+        //     ]
+        // }
+
+        // INCLUDE ALL BODY NEED IN CREATING EVENT FOR MICROSOFT GRAPH
+        return {
+            startDatetime: testDate,
+            endDatetime: endSchedule
+        }
+    }
+
+
 
     return(
         <Container>
@@ -147,7 +209,6 @@ const Applicant = () => {
                 <Button style={{flexBasis: "100%"}}>
                     <a href={`data:application/pdf;base64,${attachmentData}`} target='_blank' style={{color: "white"}}>See Attachment</a>
                 </Button>
-
                 <div className="meeting">
                     <h3>Set Meeting</h3>
                     <Form.Group className='mb-3 form-group' controlId='setTime'>
@@ -168,7 +229,7 @@ const Applicant = () => {
                             </Form.Control>
                         </div>
                     </Form.Group>
-                    <Button type="submit" style={{width: "100%"}}>Save</Button>
+                    <Button style={{width: "100%"}} onClick={handleSave}>Save</Button>
                 </div>
             </Form>
         </Container>

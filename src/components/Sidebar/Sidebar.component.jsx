@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import {Nav} from "react-bootstrap";
 import {useNavigate} from 'react-router-dom';
+import { Collapse } from 'react-bootstrap';
 import { Drawer, } from 'react-bootstrap-drawer';
 import { useMsal } from "@azure/msal-react";
+import { MailOutline, PeopleOutline, HomeOutlined } from '@mui/icons-material'
 
-import { Collapse } from 'react-bootstrap';
 // import '../pages/style/Dashboard.css'
 import './Sidebar.css'
 import 'react-bootstrap-drawer/lib/style.css';
@@ -37,11 +38,14 @@ const Sidebar = props => {
 			<Collapse in={ open }>
 				<Drawer.Overflow>
 					<Drawer.ToC>
-						<Drawer.Header href="/applications">Application</Drawer.Header>
-						<Drawer.Nav>
-							<Drawer.Item href="/settings">Settings</Drawer.Item>
-                            {/* <Drawer.Item href="/" onClick={() => handleLogout()}>Logout</Drawer.Item> */}
-						</Drawer.Nav>
+                        <div>
+                            <Drawer.Header href="/">Home</Drawer.Header>
+                            <Drawer.Nav>
+                                <Drawer.Item href="/inbox">Inbox</Drawer.Item>                     
+                                <Drawer.Item href="/applicants">Applicants</Drawer.Item>
+                                {/* <Drawer.Item href="/" onClick={() => handleLogout()}>Logout</Drawer.Item> */}
+                            </Drawer.Nav>
+                        </div>
 					</Drawer.ToC>
 				</Drawer.Overflow>
 			</Collapse>

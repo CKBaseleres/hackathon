@@ -62,5 +62,6 @@ export const loginRequest = {
  */
 export const graphConfig = {
     graphMeEndpoint: "https://graph.microsoft.com/v1.0/me",
-    graphMessagesEndpoint: "https://graph.microsoft.com/v1.0/me/messages"
+    graphMessagesEndpoint: "https://graph.microsoft.com/v1.0/me/messages",
+    graphEventEndpointP: ""
 };

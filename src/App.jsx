@@ -10,8 +10,9 @@ import { MicrosoftSignInButton } from "./components/MicrosoftSignInButton";
 import Sidebar from "./components/Sidebar/Sidebar.component"
 import { SignInButton } from "./components/SignInButton";
 
-import Applications from "./Pages/Applications/Applications.page";
+import Inbox from "./Pages/Inbox/Inbox";
 import Applicant from "./Pages/Applicant/Applicant.page";
+import Applicants from "./Pages/Applicants/Applicants.page";
 
 import { loginRequest } from "./authConfig";
 import { callMsGraph } from "./graph";
@@ -62,12 +63,11 @@ const MainContent = (props) => {
                         <Col xs={ 12 } md={ 9 } lg={ 10 }>
                             <Router>
                                 <Routes>
-                                <Route path="/applications" element={<Applications/>}/>
-                                <Route path="/applications/:id" element={<Applicant />} />
-
+                                    <Route path="/inbox" element={<Inbox/>}/>
+                                    <Route path="/inbox/:id" element={<Applicant />}/>
+                                    <Route path="/applicants" element={<Applicants />}/>
                                 </Routes>    
                             </Router>
-                            
                         </Col>
                     </Row>
                 </Container>
