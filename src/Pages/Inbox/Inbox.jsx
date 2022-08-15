@@ -18,18 +18,20 @@ const Inbox = (props) => {
         const token = await instance.acquireTokenSilent({
             ...loginRequest,
             account: accounts[0]
-        })
+        }) 
 
-        const graphData = await callMsGraph(token.accessToken, graphConfig.graphMessagesEndpoint)
+        const graphData = await callMsGraph(token.accessToken, graphConfig.graphMessagesEndpoint + '?$filter=from/emailAddress/address ne ' + `'${accounts[0].username}'`)
         // setGraphData(graphData)
         const { value: graphItems } = graphData;
-
+        console.log("🚀 ~ file: Inbox.jsx ~ line 26 ~ useEffect ~ graphItems", graphItems)
+        
         let savedApplicants = await fetch(apiEndpoints.getApplicants, {
             method: "GET",
         })
         savedApplicants = await savedApplicants.json();
         const { data } = savedApplicants;
-
+        console.log("🚀 ~ file: Inbox.jsx ~ line 33 ~ useEffect ~ data", data)
+        
         if (data) {
             // Remove Already Saved Emails
             data.forEach((item, index, array) => {

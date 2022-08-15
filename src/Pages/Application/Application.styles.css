@@ -1,0 +1,31 @@
+.container {
+    margin: 20px;
+}
+
+.form{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
+
+.form-group{
+    flex-basis: 49%;
+}
+
+.meeting{
+    flex-basis: 80%;
+}
+
+.react-date-picker__wrapper{
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+}
+
+.react-date-picker__clear-button{
+    display: none;
+}
+
+.meeting-form {
+    display: flex;
+}

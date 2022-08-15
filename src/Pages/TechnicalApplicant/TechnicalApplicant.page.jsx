@@ -26,7 +26,7 @@ const status = [
     'Onboarded'
 ]
 
-const Applicant = () => {
+const TechnicalApplicant = () => {
     const location = useLocation().pathname.split('/')[useLocation().pathname.split('/').length - 1]
 
     const [ availableTimes, setAvailableTimes ] = useState(null)
@@ -123,12 +123,22 @@ const Applicant = () => {
                         <Form.Group className='mb-3 form-group meeting-form' controlId='setTime'>
                             {/* <Form.Label style={{marginRight: "20px"}}>Date</Form.Label> */}
                             <div style={{display: "flex", justifyContent: "space-between"}}>
+                                <Form.Control as="select" name="interviewer" onChange={handleMeetingChange}>
+                                    <option value=""></option>
+                                    <option value="jeffrey.alca@essilor.com">Jeffrey Alca</option>
+                                    <option value="ernesto.paquibol@ext.essilor.com">Ernesto Paquibol</option>
+                                </Form.Control>
                                 <DatePicker onChange={setValue} name='meetingDate' value={value} />
                                 <Form.Control as="select" name='meetingStartTime' onChange={handleMeetingTimeChange} >
                                     <option value={null}>Set Start Time:</option>
                                     {availableTimes && availableTimes.map((data,i) => {
                                         return(<option key={i} value={data.value}>{data.display}</option>)
                                     })}
+                                </Form.Control>
+                                <Form.Control as="select" name="interviewer" onChange={handleMeetingChange}>
+                                    <option value=""></option>
+                                    <option value="jeffrey.alca@essilor.com">Jeffrey Alca</option>
+                                    <option value="ernesto.paquibol@ext.essilor.com">Ernesto Paquibol</option>
                                 </Form.Control>
                                 <Button disabled={disabledMeetingButton} onClick={buildEvent}>Set Meeting</Button>
                                 {/* <Form.Control as="select" name='meetingEndTime' onChange={handleChange} style={{flexBasis: "49%"}}>
@@ -143,6 +153,10 @@ const Applicant = () => {
                 }
                 <Form.Group className='mb-3 form-group' controlId='content' style={{flexBasis: "100%"}}>
                     <Form.Label>Initial Assessment</Form.Label>
+                    <Form.Control as="textarea" rows={10} name="initialAssessment" onChange={handleChange} defaultValue="Add Initial Assessment Saved as Default Value"></Form.Control>
+                </Form.Group>
+                <Form.Group className='mb-3 form-group' controlId='content' style={{flexBasis: "100%"}}>
+                    <Form.Label>Technical Assessment</Form.Label>
                     <Form.Control as="textarea" rows={10} name="initialAssessment" onChange={handleChange}></Form.Control>
                 </Form.Group>
                 <Button style={{width: "100%"}} onClick={handleSave} disabled={disabledSaveButton}>Save</Button>
@@ -152,4 +166,4 @@ const Applicant = () => {
     )
 }
 
-export default Applicant;
+export default TechnicalApplicant;

@@ -5,7 +5,7 @@ import { Navigate, Link } from "react-router-dom";
 import { apiEndpoints } from '../../apiConfig';
 import Header from '../../components/Header/Header.component';
 
-const Applicants = () => {
+const TechnicalApplicants = () => {
     const serviceLines = [
         'Digital & Innovation',
         'Application Development & Support',
@@ -23,7 +23,8 @@ const Applicants = () => {
     const [ filterValue, setFilterValue ] = useState({})
 
     useEffect(() => {
-        fetch(apiEndpoints.getApplicants, {
+        // TODO: Filter that is for status is for technical assessment
+        fetch(apiEndpoints.getApplicants+'status=For Technical Assessment', {
             method: 'GET'
         })
             .then(res => res.json())
@@ -104,4 +105,4 @@ const Applicants = () => {
     )
 }
 
-export default Applicants;
+export default TechnicalApplicants;

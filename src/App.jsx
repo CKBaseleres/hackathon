@@ -11,8 +11,10 @@ import Sidebar from "./components/Sidebar/Sidebar.component"
 import { SignInButton } from "./components/SignInButton";
 
 import Inbox from "./Pages/Inbox/Inbox";
-import Applicant from "./Pages/Applicant/Applicant.page";
+import Application from "./Pages/Application/Application.page";
 import Applicants from "./Pages/Applicants/Applicants.page";
+import Applicant from "./Pages/Applicant/Applicant.page";
+
 
 import { loginRequest } from "./authConfig";
 import { callMsGraph } from "./graph";
@@ -64,8 +66,9 @@ const MainContent = (props) => {
                             <Router>
                                 <Routes>
                                     <Route path="/inbox" element={<Inbox/>}/>
-                                    <Route path="/inbox/:id" element={<Applicant />}/>
+                                    <Route path="/inbox/:id" element={<Application />}/>
                                     <Route path="/applicants" element={<Applicants />}/>
+                                    <Route path="/applicants/:id" element={<Applicant />}/>
                                 </Routes>    
                             </Router>
                         </Col>
