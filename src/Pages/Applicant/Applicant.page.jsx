@@ -13,6 +13,7 @@ console.log("🚀 ~ file: Applicant.page.jsx ~ line 11 ~ service_positions_json"
 
 import './Applicant.styles.css'
 import { apiEndpoints } from '../../apiConfig';
+import { DateRangeOutlined } from '@mui/icons-material';
 
 // const service_positions = JSON.parse(service_positions_json);
 // console.log("🚀 ~ file: Applicant.page.jsx ~ line 15 ~ service_positions", service_positions)
@@ -25,7 +26,7 @@ const Applicant = () => {
     const [ attachmentData, setAttachmentData ] = useState(null)
     const [ userInstance, setUserInstance ] = useState(null)
     const [ availableMeetingTime, setAvailableMeetingTime] = useState(null)
-    const [ value, onChange ] = useState(new Date())
+    const [ value, setValue ] = useState(new Date())
     const [ availableTimes, setAvailableTimes ] = useState(null)
     const [ availableEndTimes, setAvailableEndTimes ] = useState(null)
     const [ formValue, setFormValue ] = useState(null)
@@ -58,12 +59,14 @@ const Applicant = () => {
         let times = []
         let endTimes = []
         for (let i=8;i<17;i++) {
-            times.push(new Date(new Date(new Date(new Date().setHours(i)).setMinutes(0)).setSeconds(0)).toLocaleTimeString())
+            times.push({ 
+                value: i,
+                display: new Date(new Date(new Date(new Date().setHours(i)).setMinutes(0)).setSeconds(0)).toLocaleTimeString()
+            })
         }
-        for (let i=9;i<18;i++) {
-            endTimes.push(new Date(new Date(new Date(new Date().setHours(i)).setMinutes(0)).setSeconds(0)).toLocaleTimeString())
-        }
-        
+        // for (let i=9;i<18;i++) {
+        //     endTimes.push(new Date(new Date(new Date(new Date().setHours(i)).setMinutes(0)).setSeconds(0)).toLocaleTimeString())
+        // }
         setAvailableTimes(times)
         setAvailableEndTimes(endTimes)
 
@@ -95,6 +98,7 @@ const Applicant = () => {
             email: userData && userData.sender.emailAddress.address,
             bodyPreview: userData && userData.bodyPreview,
             emailId: userData && userData.conversationId,
+            meetingDate: value,
             attachmentData
         })
     },[userData, attachmentData])
@@ -102,12 +106,10 @@ const Applicant = () => {
     const handleChange = (e) => {
         setFormValue(prev => ({...prev, [e.target.name]: e.target.value }))
         console.log("🚀 ~ file: Applicant.page.jsx ~ line 114 ~ handleChange ~ setFormValue", formValue)
-
     }
 
     // TODO: IF has date and time call graph api to set meeting.
     const handleSave = () => {
-        console.log('FORM VALUE', formValue)
         fetch('https://hackathon-fnc.azurewebsites.net/api/save-applicant', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json'},
@@ -127,44 +129,41 @@ const Applicant = () => {
         // TODO: SETUP MICROSOFT GRAPH EVENT API
         // WHEN NO START AND END TIME EVENT WONT BE CREATED
         // const { startDatetime, endDatetime } = buildEvent()
-
     }
+
+    useEffect(() => {
+        console.log('FORMVALUE: ', formValue);
+        if (formValue && formValue.meetingStartTime) {
+            const { meetingDate, meetingStartTime } = formValue;
+            console.log(new Date(new Date(meetingDate).setHours(meetingStartTime,0,0)).toISOString())
+        }
+    })
 
     const buildEvent = () => {
         const SUBJECT = `INITIAL INTERVIEW: ${userData.sender.emailAddress.name}`
-        const testDate = new Date();
-        if (!formValue.meetingDate) {
-            formValue.meetingDate = new Date();
-        }
-        
-        testDate.setHour(formValue.meetingStart);
-        const endSchedule = testDate.setHour(formValue.meetingEnd);
+        const { meetingDate, meetingStartTime } = formValue;
 
         // TODO: BODY TO BE BUILD FOR CREATING EVENT
-        // {
-        //     subject: SUBJECT,
-        //     body: {
-        //         contentType: 'HTML',
-        //         content: 'SUBJECT'
-        //     },
-        //     start: {
-        //         "dateTime": testDate,
-        //         timeZone: 'Pacific Standard Time'
-        //     },
-        //     end: {
-        //         "dateTime": endSchedule,
-        //         timeZone: 'Pacific Standard Time'
-        //     },
-        //     attendees: [
-        //         {
-        //             "emailAddress": {
-        //                 "address": userData.sender.emailAddress.address,
-        //                 "name": userData.sender.emailAddress.name
-        //             },
-        //             "type": 'required'
-        //         }  
-        //     ]
-        // }
+        const meetingBody = {
+            subject: SUBJECT,
+            start: {
+                "dateTime": new Date(new Date(meetingDate).setHours(parseInt(meetingStartTime),0,0)).toISOString(),
+                timeZone: 'UTC'
+            },
+            end: {
+                "dateTime": new Date(new Date(meetingDate).setHours(parseInt(meetingStartTime) + 1,0,0)).toISOString(),
+                timeZone: 'UTC'
+            },
+            attendees: [
+                {
+                    "emailAddress": {
+                        "address": userData.sender.emailAddress.address,
+                        "name": userData.sender.emailAddress.name
+                    },
+                    "type": 'required'
+                }  
+            ]
+        }
 
         // INCLUDE ALL BODY NEED IN CREATING EVENT FOR MICROSOFT GRAPH
         return {
@@ -172,8 +171,6 @@ const Applicant = () => {
             endDatetime: endSchedule
         }
     }
-
-
 
     return(
         <Container>
@@ -207,26 +204,27 @@ const Applicant = () => {
                     </Form.Control>
                 </Form.Group>
                 <Button style={{flexBasis: "100%"}}>
-                    <a href={`data:application/pdf;base64,${attachmentData}`} target='_blank' style={{color: "white"}}>See Attachment</a>
+                    <a href={`data:application/pdf;base64,${attachmentData}`} target='_blank' title={`${userData && userData.sender.emailAddress.name} Attachment`} style={{color: "white"}}>See Attachment</a>
                 </Button>
                 <div className="meeting">
                     <h3>Set Meeting</h3>
-                    <Form.Group className='mb-3 form-group' controlId='setTime'>
-                        <Form.Label style={{marginRight: "20px"}}>Date</Form.Label>
-                        <DatePicker onChange={handleChange} name='meetingDate' value={value} />
+                    <Form.Group className='mb-3 form-group meeting-form' controlId='setTime'>
+                        {/* <Form.Label style={{marginRight: "20px"}}>Date</Form.Label> */}
                         <div style={{display: "flex", justifyContent: "space-between"}}>
-                            <Form.Control as="select" name='meetingStartTime' onChange={handleChange} style={{flexBasis: "49%"}}>
+                            <DatePicker onChange={setValue} name='meetingDate' value={value} />
+                            <Form.Control as="select" name='meetingStartTime' onChange={handleChange} >
                                 <option value={null}>Set Start Time:</option>
                                 {availableTimes && availableTimes.map((data,i) => {
-                                    return(<option key={i} value={data}>{data}</option>)
+                                    return(<option key={i} value={data.value}>{data.display}</option>)
                                 })}
                             </Form.Control>
-                            <Form.Control as="select" name='meetingEndTime' onChange={handleChange} style={{flexBasis: "49%"}}>
+                            <Button>Set Meeting</Button>
+                            {/* <Form.Control as="select" name='meetingEndTime' onChange={handleChange} style={{flexBasis: "49%"}}>
                                 <option values={null}>Set End Time:</option>
                                 {availableEndTimes && availableTimes.map((data,i) => {
                                     return(<option key={i} value={data}>{data}</option>)
                                 })}
-                            </Form.Control>
+                            </Form.Control> */}
                         </div>
                     </Form.Group>
                     <Button style={{width: "100%"}} onClick={handleSave}>Save</Button>

@@ -25,3 +25,7 @@
 .react-date-picker__clear-button{
     display: none;
 }
+
+.meeting-form {
+    display: flex;
+}
