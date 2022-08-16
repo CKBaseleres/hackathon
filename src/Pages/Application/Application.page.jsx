@@ -115,6 +115,7 @@ const Application = () => {
 
     // TODO: IF has date and time call graph api to set meeting.
     const handleSave = () => {
+        setFormValue(prev => ({...prev, status: 'Saved'}))
         fetch('https://hackathon-fnc.azurewebsites.net/api/save-applicant', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json'},

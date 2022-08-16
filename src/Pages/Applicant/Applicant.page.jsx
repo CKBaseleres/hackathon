@@ -95,6 +95,7 @@ const Applicant = () => {
                 <Form.Group className='mb-3 form-group' controlId='serviceLine'>
                     <Form.Label>Service Line:</Form.Label>
                     <Form.Control as="select" aria-label="Default select example" name='serviceLine' defaultValue={applicantData && applicantData.serviceLine} onChange={handleChange}>
+                        <option></option>
                         {serviceLines.map((data,i) => {
                             return(<option key={i} value={data}>{data}</option>) 
                         })}
@@ -103,6 +104,7 @@ const Applicant = () => {
                 <Form.Group className='mb-3 form-group' controlId='position'>
                     <Form.Label>Position: </Form.Label>
                     <Form.Control as="select" aria-label="Default select example" name='position' defaultValue={applicantData && applicantData.position} onChange={handleChange}>
+                        <option></option>
                         {availablePositions.map((data,i) => {
                             return(<option key={i} value={data}>{data}</option>) 
                         })}
@@ -110,7 +112,8 @@ const Applicant = () => {
                 </Form.Group>
                 <Form.Group className='mb-3 form-group' controlId='status'>
                     <Form.Label>Status: </Form.Label>
-                    <Form.Control as="select" aria-label="Default select example" name='position' defaultValue={applicantData && applicantData.position} onChange={handleChange}>
+                    <Form.Control as="select" aria-label="Default select example" name='status' onChange={handleChange}>
+                        <option></option>
                         {status.map((data,i) => {
                             return(<option key={i} value={data}>{data}</option>) 
                         })}
