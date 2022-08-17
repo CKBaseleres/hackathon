@@ -18,6 +18,16 @@ const Applicants = () => {
         'Sr. Analyst Programmer'
     ]
 
+    const status = [
+        'For Initial Assessment',
+        'For Technical Assessment',
+        'For Selection',
+        'For Reference Check',
+        'For Offer/Contract',
+        'For Onboarding',
+        'Onboarded'
+    ]
+
     const [ applicantData, setApplicantData ] = useState(null);
     const [ defaultApplicantData ,setDefaultApplicantData ] = useState(null);
     const [ filterValue, setFilterValue ] = useState({})
@@ -67,6 +77,15 @@ const Applicants = () => {
                     </Form.Group>
                     <Form.Group className='mb-3 form-group' controlId='position'>
                         <Form.Label>Position: </Form.Label>
+                        <Form.Control as="select" aria-label="Default select example" name='position' onChange={handleFilterChange}>
+                            <option value={null} placeholder="Filter by Position"></option>
+                            {availablePositions.map((data,i) => {
+                                return(<option key={i} value={data}>{data}</option>) 
+                            })}
+                        </Form.Control>
+                    </Form.Group>
+                    <Form.Group className='mb-3 form-group' controlId='status'>
+                        <Form.Label>Status: </Form.Label>
                         <Form.Control as="select" aria-label="Default select example" name='position' onChange={handleFilterChange}>
                             <option value={null} placeholder="Filter by Position"></option>
                             {availablePositions.map((data,i) => {

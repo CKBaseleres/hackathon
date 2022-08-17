@@ -60,20 +60,67 @@ const Applicant = () => {
             })
     },[])
 
-    const handleChange = () => {
-
+    const handleChange = (e) => {
+        setFormValue(prev => ({...prev, [e.target.name]: e.target.value }))
+        console.log("🚀 ~ file: Applicant.page.jsx ~ line 114 ~ handleChange ~ setFormValue", formValue)
     }
 
-    const handleMeetingTimeChange = () => {
-
+    const handleMeetingTimeChange = (e) => {
+        setDisabledMeetingButton(false)
+        setMeetingTime(e.target.value)
     }
 
-    const buildEvent = () => {
+    const buildEvent = async () => {
+        const SUBJECT = `INITIAL INTERVIEW: ${userData && userData.sender.emailAddress.name}`
 
+        // TODO: BODY TO BE BUILD FOR CREATING EVENT
+        const meetingBody = {
+            subject: SUBJECT,
+            start: {
+                dateTime: new Date(new Date(value).setHours(parseInt(meetingTime),0,0)).toISOString().split('.')[0],
+                timeZone: 'UTC'
+            },
+            end: {
+                dateTime: new Date(new Date(value).setHours(parseInt(meetingTime) + 1,0,0)).toISOString().split('.')[0],
+                timeZone: 'UTC'
+            },
+            attendees: [
+                {
+                    emailAddress: {
+                        address: userData && userData.sender.emailAddress.address,
+                        name: userData && userData.sender.emailAddress.name
+                    },
+                    type: 'required'
+                }  
+            ]
+        }
+        console.log("🚀 ~ file: Applicant.page.jsx ~ line 169 ~ buildEvent ~ meetingBody", meetingBody)
+
+        const user = await instance.acquireTokenSilent({
+            ...loginRequest,
+            account: accounts[0]
+        })
+        
+        const eventData = await callMsGraph(user.accessToken, graphConfig.graphEventEndpoint, JSON.stringify(meetingBody), "POST")
+        console.log("🚀 ~ file: Applicant.page.jsx ~ line 176 ~ buildEvent ~ eventData", eventData)
+        setDisabledMeetingButton(true)
+        setIsInitialMeetingSet(true)
+        setFormValue(prev => ({...prev, isInitialMeetingSet}))
     }
 
     const handleSave = () => {
-        
+        fetch('https://hackathon-fnc.azurewebsites.net/api/save-applicant', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify(formValue),
+        })
+            .then(res => res.json())
+            .then(data => {
+                setDisabledSaveButton(true)
+            })
+            .catch(err => {
+                console.log("🚀 ~ file: Applicant.page.jsx ~ line 125 ~ handleSave ~ err", err)
+            })
     }
 
     const handleOpenFileAttachment = () => {
