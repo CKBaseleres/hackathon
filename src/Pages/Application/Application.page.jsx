@@ -15,6 +15,7 @@ import './Application.styles.css'
 import { apiEndpoints } from '../../apiConfig';
 import { DateRangeOutlined } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
+import useDownloadFile from '../../hooks/useDownloadFile';
 
 // const service_positions = JSON.parse(service_positions_json);
 // console.log("🚀 ~ file: Applicant.page.jsx ~ line 15 ~ service_positions", service_positions)
@@ -35,6 +36,7 @@ const Application = () => {
     const [ disabledSaveButton, setDisabledSaveButton ] = useState(false)
     const [ isInitialMeetingSet, setIsInitialMeetingSet ] = useState(false)
     const [ meetingTime, setMeetingTime ] = useState(null)
+    const [downloadFile] = useDownloadFile();
 
     const serviceLines = [
         'Digital & Innovation',
@@ -183,6 +185,10 @@ const Application = () => {
         setMeetingTime(e.target.value)
     }
 
+    const handleOpenAttachment= () => {
+        downloadFile(attachmentData);
+    }
+
     return(
         // <Container>
         <Card className='mt-2 ml-2'>
@@ -215,14 +221,14 @@ const Application = () => {
                                 <Form.Label>E-mail Content Preview:</Form.Label>
                                 <FormControl as="textarea" rows={10} defaultValue={userData && userData.bodyPreview} disabled></FormControl>
                             </Form.Group>
-                            <Button className='mb-3' style={{flexBasis: "100%"}} href={`data:application/pdf;base64,${attachmentData}`} target="_blank" disabled={!attachmentData}>View Attachment
+                            <Button className='mb-3' style={{flexBasis: "100%"}} onClick={handleOpenAttachment} disabled={!attachmentData}>View Attachment
                             </Button>
                         </Col>
                     </Row>
                     <hr className='my-5'/>
                     <Row>
                         <Col sm={4}>
-                            <h5>Something Section</h5>
+                            <h5>Designation</h5>
                             <p className="text-muted">
                                 Information about the position or role that the applicant (find out other term for applicant) is best for.
                             </p>
