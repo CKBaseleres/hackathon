@@ -3,6 +3,7 @@ import { apiEndpoints } from '../../apiConfig'
 import { Container, Row, Col, Button, Form, FormControl, Card } from 'react-bootstrap'
 import { useLocation, useResolvedPath } from 'react-router';
 import DatePicker from 'react-date-picker'
+import useDownloadFile from '../../hooks/useDownloadFile';
 
 const serviceLines = [
     'Digital & Innovation',
@@ -34,6 +35,7 @@ const Applicant = () => {
     const [ value, setValue ] = useState(new Date())
     const [ disabledMeetingButton, setDisabledMeetingButton] = useState(true)
     const [ disabledSaveButton, setDisabledSaveButton ] = useState(false)
+    const [downloaFile] = useDownloadFile();
 
     useEffect(() => {
 
@@ -74,6 +76,10 @@ const Applicant = () => {
         
     }
 
+    const handleOpenFileAttachment = () => {
+        downloaFile(applicantData.attachmentData)
+    }
+
     return(
         // <Container>
         <Card className='mt-2 ml-2'>
@@ -106,14 +112,14 @@ const Applicant = () => {
                                 <Form.Label>E-mail Content Preview:</Form.Label>
                                 <FormControl as="textarea" rows={10} defaultValue={applicantData && applicantData.bodyPreview} disabled></FormControl>
                             </Form.Group>
-                            <Button className='mb-3' style={{flexBasis: "100%"}} href={`data:application/pdf;base64,${applicantData && applicantData.attachmentData}`} target="_blank" disabled={applicantData && !applicantData.attachmentData}>View Attachment
+                            <Button className='mb-3' style={{flexBasis: "100%"}} onClick={handleOpenFileAttachment}>View Attachment
                             </Button>
                         </Col>
                     </Row>
                     <hr className='my-5'/>
                     <Row>
                         <Col sm={4}>
-                            <h5>Something Section</h5>
+                            <h5>Designation</h5>
                             <p className="text-muted">
                                 Information about the position or role that the applicant (find out other term for applicant) is best for.
                             </p>
