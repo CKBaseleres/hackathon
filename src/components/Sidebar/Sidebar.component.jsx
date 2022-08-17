@@ -39,10 +39,11 @@ const Sidebar = props => {
 				<Drawer.Overflow>
 					<Drawer.ToC>
                         <div>
-                            <Drawer.Header href="/">Home</Drawer.Header>
+                            <Drawer.Header href="/">HOME</Drawer.Header>
                             <Drawer.Nav>
-                                <Drawer.Item href="/inbox">Inbox</Drawer.Item>                     
-                                <Drawer.Item href="/applicants">Applicants</Drawer.Item>
+                                <Drawer.Item href="/inbox">INBOX</Drawer.Item>                     
+                                <Drawer.Item href="/applicants">APPLICANTS</Drawer.Item>
+                                <Drawer.Item href="/applicants">ARCHIVED</Drawer.Item>
                                 {/* <Drawer.Item href="/" onClick={() => handleLogout()}>Logout</Drawer.Item> */}
                             </Drawer.Nav>
                         </div>

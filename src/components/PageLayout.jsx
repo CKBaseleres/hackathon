@@ -19,7 +19,7 @@ export const PageLayout = (props) => {
 
     return (
         <>
-            <Navbar bg="primary" variant="dark" style={{justifyContent:"space-between", padding: "0.5rem 1.5rem"}}>
+            <Navbar bg="primary" variant="dark" style={{justifyContent:"space-between", padding: "0.5rem 1.5rem", position:"sticky", top:"0", zIndex:"1"}}>
                 <a className="navbar-brand" href="/">R.A.I.D.</a>
                 { isAuthenticated ? <SignOutButton /> : "" }
             </Navbar>

@@ -14,7 +14,7 @@ import Inbox from "./Pages/Inbox/Inbox";
 import Application from "./Pages/Application/Application.page";
 import Applicants from "./Pages/Applicants/Applicants.page";
 import Applicant from "./Pages/Applicant/Applicant.page";
-
+import Home from "./Pages/Home/Home.page"
 
 import { loginRequest } from "./authConfig";
 import { callMsGraph } from "./graph";
@@ -65,6 +65,7 @@ const MainContent = (props) => {
                         <Col xs={ 12 } md={ 9 } lg={ 10 }>
                             <Router>
                                 <Routes>
+                                    <Route path="/" element={<Home/>}/>
                                     <Route path="/inbox" element={<Inbox/>}/>
                                     <Route path="/inbox/:id" element={<Application />}/>
                                     <Route path="/applicants" element={<Applicants />}/>

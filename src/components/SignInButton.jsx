@@ -4,7 +4,9 @@ import { loginRequest } from "../authConfig";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/esm/Dropdown";
 import Button from 'react-bootstrap/Button';
-
+import Container from 'react-bootstrap/Container';
+import { Col, Row } from "react-bootstrap";
+import Logo from '../assets/logo/vector/default-monochrome.svg'
 /**
  * Renders a drop down button with child buttons for logging in with a popup or redirect
  */
@@ -32,9 +34,25 @@ export const SignInButton = () => {
         //     <Dropdown.Item as="button" onClick={() => handleLogin("popup")}>Sign in using Popup</Dropdown.Item>
         //     <Dropdown.Item as="button" onClick={() => handleLogin("redirect")}>Sign in using Redirect</Dropdown.Item>
         // </DropdownButton>
-        <div className="signin-container">
-            <Button variant="outline-dark" onClick={() => handleLogin("popup")}><object type="image/svg+xml" data="https://s3-eu-west-1.amazonaws.com/cdn-testing.web.bas.ac.uk/scratch/bas-style-kit/ms-pictogram/ms-pictogram.svg" className="vertical-center"></object> 
-            <span style={{marginLeft: "30px"}}>Sign in with Microsoft</span></Button>
-        </div>
+        <Container>
+            <Row>
+                <Col>
+                    <div className="col-container">
+                        <div className="right-container">
+                            <object type="image/svg+xml" data={Logo}></object>
+                            <h3>Recruitment Assistance and Interview Delegation</h3>
+                            <Button variant="outline-dark" className="vertical-center" onClick={() => handleLogin("popup")}><object type="image/svg+xml" data="https://s3-eu-west-1.amazonaws.com/cdn-testing.web.bas.ac.uk/scratch/bas-style-kit/ms-pictogram/ms-pictogram.svg" style={{transform: "translateY(3px)", marginRight: "5px"}} ></object> 
+                            {/* <span style={{marginLeft: "10px"}}>Sign in with Microsoft</span> */}
+                            Sign In With Microsoft
+                            </Button>
+                        </div>
+                    </div>
+                    
+                </Col>
+            </Row>
+            {/* <div className="signin-container">
+                
+            </div> */}
+        </Container>
     )
 }

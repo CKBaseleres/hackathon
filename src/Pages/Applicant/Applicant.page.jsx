@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { apiEndpoints } from '../../apiConfig'
-import { Container, Row, Col, Button, Form, FormControl } from 'react-bootstrap'
+import { Container, Row, Col, Button, Form, FormControl, Card } from 'react-bootstrap'
 import { useLocation, useResolvedPath } from 'react-router';
 import DatePicker from 'react-date-picker'
 
@@ -75,8 +75,140 @@ const Applicant = () => {
     }
 
     return(
-        <Container>
-            <Form className="form">
+        // <Container>
+        <Card className='mt-2 ml-2'>
+            <Card.Header className='px-5 py-4'><h4 className='font-weight-bold mb-0'>Candidate Profile</h4></Card.Header>
+            <Card.Body className='px-5'>
+                <Form>
+                    <Row>
+                        <Col sm={4}>
+                            <h5>Candidate Information</h5>
+                            <p className="text-muted">
+                                Information from the candidate retrieved from email. Click 'View Attachment' to see attached CV or Resume of applicant.
+                            </p>
+                        </Col>
+                        <Col sm={8}>
+                            <Row>
+                                <Col>
+                                    <Form.Group className='mb-3 form-group' sm controlId='formName'>
+                                        <Form.Label>Name:</Form.Label>
+                                        <Form.Control defaultValue={applicantData && applicantData.name} disabled></Form.Control>
+                                    </Form.Group>
+                                </Col>
+                                <Col>
+                                    <Form.Group className='mb-3 form-group' controlId='formEmail'>
+                                        <Form.Label>Email Address:</Form.Label>
+                                        <Form.Control defaultValue={applicantData && applicantData.email} type='email' disabled></Form.Control>
+                                    </Form.Group>
+                                </Col>
+                            </Row>
+                            <Form.Group className='mb-3 form-group' controlId='content' style={{flexBasis: "100%"}}>
+                                <Form.Label>E-mail Content Preview:</Form.Label>
+                                <FormControl as="textarea" rows={10} defaultValue={applicantData && applicantData.bodyPreview} disabled></FormControl>
+                            </Form.Group>
+                            <Button className='mb-3' style={{flexBasis: "100%"}} href={`data:application/pdf;base64,${applicantData && applicantData.attachmentData}`} target="_blank" disabled={applicantData && !applicantData.attachmentData}>View Attachment
+                            </Button>
+                        </Col>
+                    </Row>
+                    <hr className='my-5'/>
+                    <Row>
+                        <Col sm={4}>
+                            <h5>Something Section</h5>
+                            <p className="text-muted">
+                                Information about the position or role that the applicant (find out other term for applicant) is best for.
+                            </p>
+                        </Col>
+                        <Col sm={8}>
+                            <Row>
+                                <Col>
+                                    <Form.Group className='mb-3 form-group' controlId='serviceLine'>
+                                        <Form.Label>Service Line:</Form.Label>
+                                        <Form.Control as="select" aria-label="Default select example" name='serviceLine' onChange={handleChange}>
+                                            <option></option>
+                                            {serviceLines.map((data,i) => {
+                                                return(<option key={i} value={data}>{data}</option>) 
+                                            })}
+                                        </Form.Control>
+                                    </Form.Group>
+                                </Col>
+                                <Col>
+                                    <Form.Group className='mb-3 form-group' controlId='position'>
+                                        <Form.Label>Position: </Form.Label>
+                                        <Form.Control as="select" aria-label="Default select example" name='position' onChange={handleChange}>
+                                            <option></option>
+                                            {availablePositions.map((data,i) => {
+                                                return(<option key={i} value={data}>{data}</option>) 
+                                            })}
+                                        </Form.Control>
+                                    </Form.Group>
+                                </Col>
+                            </Row>
+                        </Col>
+                    </Row>
+                    <hr className='my-5'/>
+                    {  applicantData && !applicantData.isInitialMeetingSet && 
+                    <Row>
+                        <Col sm={4}>
+                            <h5>Set Meeting</h5>
+                            <p className="text-muted">
+                                Set a meeting with the candidate for screening or interview purposes.
+                           </p>
+                        </Col>
+                        <Col sm={8}>
+                            <Row>
+                                <Col sm={2}>
+                                    <Form.Group>
+                                        <Form.Label>Date:</Form.Label>
+                                        <div>
+                                            <DatePicker onChange={setValue} name='meetingDate' value={value} />
+                                        </div>
+                                    </Form.Group>
+                                </Col>
+                                <Col>
+                                    <Form.Group className='ml-3'>
+                                        <Form.Label style={{marginRight: "20px"}}>Time:</Form.Label>
+                                        <Form.Control as="select" name='meetingStartTime' onChange={handleMeetingTimeChange} style={{maxWidth: "160px", maxHeight: "100px"}} >
+                                            <option value={null}>Set Start Time:</option>
+                                            {availableTimes && availableTimes.map((data,i) => {
+                                                return(<option key={i} value={data.value}>{data.display}</option>)
+                                            })}
+                                        </Form.Control>
+                                    </Form.Group>
+                                </Col>
+                            </Row>
+                        <div>
+                            <Button disabled={disabledMeetingButton} onClick={buildEvent}>Set Meeting</Button>
+                        </div>
+                        </Col>
+                    </Row> 
+                }
+                <hr className='my-5' />
+                <Row>
+                    <Col sm={4}>
+                        <h5>Assessment</h5>
+                            <p className="text-muted">
+                                Enter assessment for the candidate.
+                           </p>
+                    </Col>
+                    <Col sm={8}>
+                        <Form.Group className='mb-3 form-group' controlId='content' style={{flexBasis: "100%"}}>
+                            <Form.Label>Initial Assessment</Form.Label>
+                            <Form.Control as="textarea" rows={10} name="initialAssessment" onChange={handleChange}></Form.Control>
+                        </Form.Group>
+                    </Col>
+                </Row>
+                    {/* <div className="meeting">
+                        <h3>Set Meeting</h3>
+                    </div> */}
+
+                </Form>
+            </Card.Body>
+            <Card.Footer className='text-right'>
+                <Button variant="warning" onClick={handleSave} disabled={disabledSaveButton}>Archive</Button>
+                <Button className="ml-3" onClick={handleSave} disabled={disabledSaveButton}>Save</Button>
+            </Card.Footer>
+        </Card>
+            /* <Form className="form">
                 <Form.Group className='mb-3 form-group' sm controlId='formName'>
                     <Form.Label>Applicant Name:</Form.Label>
                     <Form.Control defaultValue={applicantData && applicantData.name} disabled></Form.Control>
@@ -124,22 +256,16 @@ const Applicant = () => {
                     <div className="meeting">
                         <h3>Set Meeting</h3>
                         <Form.Group className='mb-3 form-group meeting-form' controlId='setTime'>
-                            {/* <Form.Label style={{marginRight: "20px"}}>Date</Form.Label> */}
                             <div style={{display: "flex", justifyContent: "space-between"}}>
                                 <DatePicker onChange={setValue} name='meetingDate' value={value} />
                                 <Form.Control as="select" name='meetingStartTime' onChange={handleMeetingTimeChange} >
-                                    <option value={null}>Set Start Time:</option>
+                                    <option value={null}></option>
                                     {availableTimes && availableTimes.map((data,i) => {
                                         return(<option key={i} value={data.value}>{data.display}</option>)
                                     })}
                                 </Form.Control>
                                 <Button disabled={disabledMeetingButton} onClick={buildEvent}>Set Meeting</Button>
-                                {/* <Form.Control as="select" name='meetingEndTime' onChange={handleChange} style={{flexBasis: "49%"}}>
-                                    <option values={null}>Set End Time:</option>
-                                    {availableEndTimes && availableTimes.map((data,i) => {
-                                        return(<option key={i} value={data}>{data}</option>)
-                                    })}
-                                </Form.Control> */}
+
                             </div>
                         </Form.Group>
                     </div>
@@ -151,7 +277,7 @@ const Applicant = () => {
                 <Button style={{width: "100%"}} onClick={handleSave} disabled={disabledSaveButton}>Save</Button>
             </Form>
             
-        </Container>
+        </Container> */
     )
 }
 

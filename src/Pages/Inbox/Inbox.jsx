@@ -18,7 +18,7 @@ const Inbox = (props) => {
         const token = await instance.acquireTokenSilent({
             ...loginRequest,
             account: accounts[0]
-        }) 
+        })
 
         const graphData = await callMsGraph(token.accessToken, graphConfig.graphMessagesEndpoint + '?$filter=from/emailAddress/address ne ' + `'${accounts[0].username}'`)
         // setGraphData(graphData)
@@ -46,22 +46,32 @@ const Inbox = (props) => {
     },[])
 
     return(
-        <div className="applications">
+        <div className="applications px-5">
             <Header title="Inbox" />
-            <Table striped bordered hover size="md">
+            <Table size="md">
                 <thead>
                     <tr>
-                    <th>Subject</th>
                     <th>Name</th>
+                    <th>Subject</th>
                     <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     { graphData && graphData.map((data, i) => {
                         return(
-                            <tr key={i}>
+                            <tr key={i} className="align-middle">
+                                <td> 
+                                    <div className="d-flex align-items-center">
+                                        <div style={{height: '50px', width:'50px', border:"1px solid black", textAlign:"center"}} className="rounded-circle">
+                                            <p className="mt-2 font-weight-bold" style={{fontSize: "1.25em"}}>{data.sender.emailAddress.name.split(' ')[0].split('')[0] + data.sender.emailAddress.name.split(' ')[data.sender.emailAddress.name.split(' ').length - 1].split('')[0]}</p>
+                                        </div>
+                                        <div className="ms-3 ml-2">
+                                            <p className="font-weight-bold mb-1">{data.sender.emailAddress.name}</p>
+                                            <p className="text-muted mb-0">{data.sender.emailAddress.address}</p>
+                                        </div>
+                                    </div>
+                                </td>
                                 <td>{data.subject}</td>
-                                <td>{data.sender.emailAddress.name}</td>
                                 <td>
                                     {/* <Button variant="light">
                                         <Link to={data.id}>View</Link>

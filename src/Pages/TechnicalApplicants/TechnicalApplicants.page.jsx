@@ -56,16 +56,7 @@ const TechnicalApplicants = () => {
         <div className="applications">
             <Header title="Applicants" />
             <div className="filter">
-                <Form className='form'>
-                    <Form.Group className='mb-3 form-group' controlId='serviceLine'>
-                        <Form.Label>Service Line:</Form.Label>
-                        <Form.Control as="select" aria-label="Default select example" name='serviceLine' onChange={handleFilterChange}>
-                            <option value={null} placeholder="Filter by Service Lines"></option>
-                            {serviceLines.map((data,i) => {
-                                return(<option key={i} value={data}>{data}</option>) 
-                            })}
-                        </Form.Control>
-                    </Form.Group>
+                <Form>
                     <Form.Group className='mb-3 form-group' controlId='position'>
                         <Form.Label>Position: </Form.Label>
                         <Form.Control as="select" aria-label="Default select example" name='position' onChange={handleFilterChange}>
@@ -77,7 +68,7 @@ const TechnicalApplicants = () => {
                     </Form.Group>
                 </Form>
             </div>
-            <Table striped bordered hover size="lg">
+            <Table size="lg">
                 <thead>
                     <tr>
                     <th>Name</th>
@@ -89,10 +80,20 @@ const TechnicalApplicants = () => {
                     { applicantData && applicantData.map((data, i) => {
                         return(
                             <tr key={i}>
-                                <td>{data.name}</td>
+                                <td>
+                                    <div className="d-flex align-items-center">
+                                        <div style={{height: '50px', width:'50px', border:"1px solid black", textAlign:"center"}} className="rounded-circle">
+                                            <p className="mt-2 font-weight-bold" style={{fontSize: "1.25em"}}>{ data.name.split(' ')[0].split('')[0] + data.name.split(' ')[data.name.split(' ').length - 1].split('')[0]}</p>
+                                        </div>
+                                        <div className="ms-3 ml-2">
+                                            <p className="font-weight-bold mb-1">{data.name}</p>
+                                            <p className="text-muted mb-0">{data.email}</p>
+                                        </div>
+                                    </div>
+                                </td>
                                 <td>{data.serviceLine} - {data.position}</td>
                                 <td>
-                                    <Link to={data._id}><Button variant="light">
+                                    <Link to={data.id}><Button variant="light">
                                         View
                                     </Button></Link>
                                 </td>
