@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Container, Button, Modal, Form, Badge } from "react-bootstrap";
+import { Table, Container, Button, Modal, Form, Badge,Row, Col, } from "react-bootstrap";
 import { Navigate, Link } from "react-router-dom";
 
 import { apiEndpoints } from '../../apiConfig';
@@ -62,37 +62,45 @@ const Applicants = () => {
     }
 
     return(
-        <div className="applications">
+        <div className="applications px-5"> 
             <Header title="Applicants" />
             <div className="filter">
                 <Form className='form'>
-                    <Form.Group className='mb-3 form-group' controlId='serviceLine'>
-                        <Form.Label>Service Line:</Form.Label>
-                        <Form.Control as="select" aria-label="Default select example" name='serviceLine' onChange={handleFilterChange}>
-                            <option value={null} placeholder="Filter by Service Lines"></option>
-                            {serviceLines.map((data,i) => {
-                                return(<option key={i} value={data}>{data}</option>) 
-                            })}
-                        </Form.Control>
-                    </Form.Group>
-                    <Form.Group className='mb-3 form-group' controlId='position'>
-                        <Form.Label>Position: </Form.Label>
-                        <Form.Control as="select" aria-label="Default select example" name='position' onChange={handleFilterChange}>
-                            <option value={null} placeholder="Filter by Position"></option>
-                            {availablePositions.map((data,i) => {
-                                return(<option key={i} value={data}>{data}</option>) 
-                            })}
-                        </Form.Control>
-                    </Form.Group>
-                    <Form.Group className='mb-3 form-group' controlId='status'>
-                        <Form.Label>Status: </Form.Label>
-                        <Form.Control as="select" aria-label="Default select example" name='position' onChange={handleFilterChange}>
-                            <option value={null} placeholder="Filter by Position"></option>
-                            {availablePositions.map((data,i) => {
-                                return(<option key={i} value={data}>{data}</option>) 
-                            })}
-                        </Form.Control>
-                    </Form.Group>
+                    <Row>
+                        <Col>
+                            <Form.Group className='mb-3 form-group' controlId='serviceLine'>
+                                <Form.Label>Service Line:</Form.Label>
+                                <Form.Control as="select" aria-label="Default select example" name='serviceLine' onChange={handleFilterChange}>
+                                    <option value={null} placeholder="Filter by Service Lines"></option>
+                                    {serviceLines.map((data,i) => {
+                                        return(<option key={i} value={data}>{data}</option>) 
+                                    })}
+                                </Form.Control>
+                            </Form.Group>
+                        </Col>
+                        <Col>
+                        <Form.Group className='mb-3 form-group' controlId='position'>
+                            <Form.Label>Position: </Form.Label>
+                            <Form.Control as="select" aria-label="Default select example" name='position' onChange={handleFilterChange}>
+                                <option value={null} placeholder="Filter by Position"></option>
+                                {availablePositions.map((data,i) => {
+                                    return(<option key={i} value={data}>{data}</option>) 
+                                })}
+                            </Form.Control>
+                        </Form.Group>
+                        </Col>
+                        <Col>
+                        <Form.Group className='mb-3 form-group' controlId='status'>
+                            <Form.Label>Status: </Form.Label>
+                            <Form.Control as="select" aria-label="Default select example" name='position' onChange={handleFilterChange}>
+                                <option value={null} placeholder="Filter by Position"></option>
+                                {status.map((data,i) => {
+                                    return(<option key={i} value={data}>{data}</option>) 
+                                })}
+                            </Form.Control>
+                        </Form.Group>
+                        </Col>
+                    </Row>
                 </Form>
             </div>
             <Table size="md">
@@ -131,7 +139,7 @@ const Applicants = () => {
                     })}
                 </tbody>
             </Table>
-        </div>
+        </div> 
     )
 }
 

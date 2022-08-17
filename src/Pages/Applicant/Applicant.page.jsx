@@ -28,6 +28,7 @@ const status = [
 
 const Applicant = () => {
     const location = useLocation().pathname.split('/')[useLocation().pathname.split('/').length - 1]
+    console.log("🚀 ~ file: Applicant.page.jsx ~ line 31 ~ Applicant ~ location", location)
 
     const [ availableTimes, setAvailableTimes ] = useState(null)
     const [ applicantData, setApplicantData ] = useState(null)
@@ -59,7 +60,7 @@ const Applicant = () => {
     },[])
 
     const handleChange = (e) => {
-        setFormValue(prev => ({...prev, [e.target.name]: e.target.value }))
+        setApplicantData(prev => ({...prev, [e.target.name]: e.target.value }))
         console.log("🚀 ~ file: Applicant.page.jsx ~ line 114 ~ handleChange ~ setFormValue", formValue)
     }
 
@@ -103,12 +104,12 @@ const Applicant = () => {
         console.log("🚀 ~ file: Applicant.page.jsx ~ line 176 ~ buildEvent ~ eventData", eventData)
         setDisabledMeetingButton(true)
         setIsInitialMeetingSet(true)
-        setFormValue(prev => ({...prev, isInitialMeetingSet}))
+        setApplicantData(prev => ({...prev, isInitialMeetingSet}))
     }
 
     const handleSave = () => {
-        fetch('https://hackathon-fnc.azurewebsites.net/api/save-applicant', {
-            method: 'POST',
+        fetch('https://hackathon-fnc.azurewebsites.net/api/applicant/'+location, {
+            method: 'PUT',
             headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify(formValue),
         })
