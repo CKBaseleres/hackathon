@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {Nav} from "react-bootstrap";
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import { Collapse } from 'react-bootstrap';
 import { Drawer, } from 'react-bootstrap-drawer';
 import { useMsal } from "@azure/msal-react";
@@ -39,11 +39,12 @@ const Sidebar = props => {
 				<Drawer.Overflow>
 					<Drawer.ToC>
                         <div>
-                            <Drawer.Header href="/">HOME</Drawer.Header>
+                            <Drawer.Header><Link to="/">HOME</Link></Drawer.Header>
                             <Drawer.Nav>
-                                <Drawer.Item href="/inbox">INBOX</Drawer.Item>                     
-                                <Drawer.Item href="/applicants">APPLICANTS</Drawer.Item>
-                                <Drawer.Item href="/archive">ARCHIVED</Drawer.Item>
+                                <Drawer.Item><Link to="/inbox">INBOX</Link></Drawer.Item>                     
+                                <Drawer.Item><Link to="/applicants">APPLICANTS</Link></Drawer.Item>
+                                <Drawer.Item><Link to="/archive">ARCHIVED</Link></Drawer.Item>
+                                {/* <Drawer.Item><Link to="/request-recruitement">Request For Recruitement</Link></Drawer.Item> */}
                                 {/* <Drawer.Item href="/" onClick={() => handleLogout()}>Logout</Drawer.Item> */}
                             </Drawer.Nav>
                         </div>

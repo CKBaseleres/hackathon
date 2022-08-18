@@ -21,6 +21,7 @@ import { callMsGraph } from "./graph";
 
 import "./styles/App.css";
 import Archive from "./Pages/Archive/Archive.page";
+import RequestForRecruitement from "./Pages/RequestForRecruitement/RequestForRecruitement";
 
 /**
  * Renders information about the signed-in user or a button to retrieve data about the user
@@ -61,10 +62,10 @@ const MainContent = (props) => {
             <AuthenticatedTemplate>
                 {/* <ProfileContent /> */}
                 <Container fluid>
+                    <Router>
                     <Row className="flex-xl-nowrap">
                         <Col as={ Sidebar } xs={ 12 } md={ 3 } lg={ 2 } />
                         <Col xs={ 12 } md={ 9 } lg={ 10 }>
-                            <Router>
                                 <Routes>
                                     <Route path="/" element={<Home/>}/>
                                     <Route path="/inbox" element={<Inbox/>}/>
@@ -73,10 +74,12 @@ const MainContent = (props) => {
                                     <Route path="/applicants/:id" element={<Applicant />}/>
                                     <Route path="/archive" element={<Archive />}/>
                                     <Route path="/archive/:id" element={<Applicant />}/>
+                                    <Route path="/archive/:id" element={<Applicant />}/>
+                                    <Route path="/request-recruitement" element={<RequestForRecruitement />}/>
                                 </Routes>    
-                            </Router>
                         </Col>
                     </Row>
+                    </Router>
                 </Container>
             </AuthenticatedTemplate>
 
