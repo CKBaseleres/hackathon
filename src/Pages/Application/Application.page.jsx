@@ -16,6 +16,7 @@ import { apiEndpoints } from '../../apiConfig';
 import { DateRangeOutlined } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import useDownloadFile from '../../hooks/useDownloadFile';
+import useDesignation from '../../hooks/useDesignation';
 
 // const service_positions = JSON.parse(service_positions_json);
 // console.log("🚀 ~ file: Applicant.page.jsx ~ line 15 ~ service_positions", service_positions)
@@ -37,20 +38,8 @@ const Application = () => {
     const [ isInitialMeetingSet, setIsInitialMeetingSet ] = useState(false)
     const [ meetingTime, setMeetingTime ] = useState(null)
     const [downloadFile] = useDownloadFile();
-
-    const serviceLines = [
-        'Digital & Innovation',
-        'Application Development & Support',
-        'Finance Shared Services',
-        'Master Data Management'
-    ]
-
-    const availablePositions = [
-        'Analyst Programmer',
-        'Sr. Analyst Programmer'
-    ]
-
-    // console.log(service_positions_json.)
+    const [getServiceLines] = useDesignation();
+    const [availablePositions, setAvailablePositions] = useState([]);
 
     useEffect(() => {
         const fetchUserData = async() => {
@@ -114,6 +103,9 @@ const Application = () => {
 
     const handleChange = (e) => {
         setFormValue(prev => ({...prev, [e.target.name]: e.target.value }))
+        if (getServiceLines().filter(service => service.name === e.target.value).length > 0) {
+            setAvailablePositions(getServiceLines().filter(service => service.name === e.target.value)[0].availablePositions) 
+        }
         console.log("🚀 ~ file: Applicant.page.jsx ~ line 114 ~ handleChange ~ setFormValue", formValue)
     }
 
@@ -240,8 +232,8 @@ const Application = () => {
                                         <Form.Label>Service Line:</Form.Label>
                                         <Form.Control as="select" aria-label="Default select example" name='serviceLine' onChange={handleChange}>
                                             <option></option>
-                                            {serviceLines.map((data,i) => {
-                                                return(<option key={i} value={data}>{data}</option>) 
+                                            {getServiceLines().map((data,i) => {
+                                                return(<option key={i} value={data.name}>{data.name}</option>) 
                                             })}
                                         </Form.Control>
                                     </Form.Group>

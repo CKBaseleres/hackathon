@@ -4,20 +4,12 @@ import { Navigate, Link } from "react-router-dom";
 
 import { apiEndpoints } from '../../apiConfig';
 import Header from '../../components/Header/Header.component';
+import useDesignation from '../../hooks/useDesignation';
 
 const Applicants = () => {
-    const serviceLines = [
-        'Digital & Innovation',
-        'Application Development & Support',
-        'Finance Shared Services',
-        'Master Data Management'
-    ]
-
-    const availablePositions = [
-        'Analyst Programmer',
-        'Sr. Analyst Programmer'
-    ]
-
+    const [getServiceLines] = useDesignation();
+    const [availablePositions, setAvailablePositions] = useState([]);
+    
     const status = [
         'For Initial Assessment',
         'For Technical Assessment',
@@ -46,6 +38,9 @@ const Applicants = () => {
     },[])
 
     const handleFilterChange = (e) => {
+        if (getServiceLines().filter(service => service.name === e.target.value).length > 0) {
+            setAvailablePositions(getServiceLines().filter(service => service.name === e.target.value)[0].availablePositions) 
+        }
         console.log('TEST', e)
         if (e.target.value) {
             const newFilterData = [];
@@ -70,8 +65,8 @@ const Applicants = () => {
                         <Form.Label>Service Line:</Form.Label>
                         <Form.Control as="select" aria-label="Default select example" name='serviceLine' onChange={handleFilterChange}>
                             <option value={null} placeholder="Filter by Service Lines"></option>
-                            {serviceLines.map((data,i) => {
-                                return(<option key={i} value={data}>{data}</option>) 
+                            {getServiceLines().map((data,i) => {
+                                return(<option key={i} value={data.name}>{data.name}</option>) 
                             })}
                         </Form.Control>
                     </Form.Group>
@@ -88,7 +83,7 @@ const Applicants = () => {
                         <Form.Label>Status: </Form.Label>
                         <Form.Control as="select" aria-label="Default select example" name='position' onChange={handleFilterChange}>
                             <option value={null} placeholder="Filter by Position"></option>
-                            {availablePositions.map((data,i) => {
+                            {status.map((data,i) => {
                                 return(<option key={i} value={data}>{data}</option>) 
                             })}
                         </Form.Control>

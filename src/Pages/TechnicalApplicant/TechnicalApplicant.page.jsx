@@ -3,18 +3,8 @@ import { apiEndpoints } from '../../apiConfig'
 import { Container, Row, Col, Button, Form, FormControl } from 'react-bootstrap'
 import { useLocation, useResolvedPath } from 'react-router';
 import DatePicker from 'react-date-picker'
-
-const serviceLines = [
-    'Digital & Innovation',
-    'Application Development & Support',
-    'Finance Shared Services',
-    'Master Data Management'
-]
-
-const availablePositions = [
-    'Analyst Programmer',
-    'Sr. Analyst Programmer'
-]
+import useDownloadFile from '../../hooks/useDownloadFile';
+import useDesignation from '../../hooks/useDesignation';
 
 const status = [
     'For Initial Assessment',
@@ -34,6 +24,9 @@ const TechnicalApplicant = () => {
     const [ value, setValue ] = useState(new Date())
     const [ disabledMeetingButton, setDisabledMeetingButton] = useState(true)
     const [ disabledSaveButton, setDisabledSaveButton ] = useState(false)
+    const [downloadFile] = useDownloadFile();
+    const [getServiceLines] = useDesignation();
+    const [availablePositions, setAvailablePositions] = useState([]);
 
     useEffect(() => {
 
@@ -59,7 +52,9 @@ const TechnicalApplicant = () => {
     },[])
 
     const handleChange = () => {
-
+        if (getServiceLines().filter(service => service.name === e.target.value).length > 0) {
+            setAvailablePositions(getServiceLines().filter(service => service.name === e.target.value)[0].availablePositions) 
+        }
     }
 
     const handleMeetingTimeChange = () => {
@@ -72,6 +67,10 @@ const TechnicalApplicant = () => {
 
     const handleSave = () => {
         
+    }
+
+    const handleOpenFileAttachment = () => {
+        downloadFile(applicantData.attachmentData);
     }
 
     return(
@@ -105,14 +104,14 @@ const TechnicalApplicant = () => {
                                 <Form.Label>E-mail Content Preview:</Form.Label>
                                 <FormControl as="textarea" rows={10} defaultValue={applicantData && applicantData.bodyPreview} disabled></FormControl>
                             </Form.Group>
-                            <Button className='mb-3' style={{flexBasis: "100%"}} href={`data:application/pdf;base64,${applicantData && applicantData.attachmentData}`} target="_blank" disabled={applicantData && !applicantData.attachmentData}>View Attachment
+                            <Button className='mb-3' style={{flexBasis: "100%"}} onClick={handleOpenFileAttachment} >View Attachment
                             </Button>
                         </Col>
                     </Row>
                     <hr className='my-5'/>
                     <Row>
                         <Col sm={4}>
-                            <h5>Something Section</h5>
+                            <h5>Designation</h5>
                             <p className="text-muted">
                                 Information about the position or role that the applicant (find out other term for applicant) is best for.
                             </p>
@@ -124,7 +123,7 @@ const TechnicalApplicant = () => {
                                         <Form.Label>Service Line:</Form.Label>
                                         <Form.Control as="select" aria-label="Default select example" name='serviceLine' onChange={handleChange}>
                                             <option></option>
-                                            {serviceLines.map((data,i) => {
+                                            {getServiceLines().map((data,i) => {
                                                 return(<option key={i} value={data}>{data}</option>) 
                                             })}
                                         </Form.Control>
