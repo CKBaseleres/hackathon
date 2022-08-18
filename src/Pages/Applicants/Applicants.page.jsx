@@ -114,7 +114,7 @@ const Applicants = () => {
                                 <td> 
                                     <div className="d-flex align-items-center">
                                         <div style={{height: '50px', width:'50px', border:"1px solid black", textAlign:"center"}} className="rounded-circle">
-                                            <p className="mt-2 font-weight-bold" style={{fontSize: "1.25em"}}>{ data.name.split(' ')[0].split('')[0] + data.name.split(' ')[data.name.split(' ').length - 1].split('')[0]}</p>
+                                            <p className="mt-2 font-weight-bold" style={{fontSize: "1.25em"}}>{ data.name?.split(' ')[0].split('')[0] + data.name?.split(' ')[data.name?.split(' ').length - 1].split('')[0]}</p>
                                         </div>
                                         <div className="ms-3 ml-2">
                                             <p className="font-weight-bold mb-1">{data.name}</p>

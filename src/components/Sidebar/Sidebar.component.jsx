@@ -44,7 +44,7 @@ const Sidebar = props => {
                                 <Drawer.Item><Link to="/inbox">INBOX</Link></Drawer.Item>                     
                                 <Drawer.Item><Link to="/applicants">APPLICANTS</Link></Drawer.Item>
                                 <Drawer.Item><Link to="/archive">ARCHIVED</Link></Drawer.Item>
-                                {/* <Drawer.Item><Link to="/request-recruitement">Request For Recruitement</Link></Drawer.Item> */}
+                                <Drawer.Item><Link to="/request-recruitement">REQUEST FOR RECRUITEMENT</Link></Drawer.Item>
                                 {/* <Drawer.Item href="/" onClick={() => handleLogout()}>Logout</Drawer.Item> */}
                             </Drawer.Nav>
                         </div>
