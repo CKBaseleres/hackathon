@@ -20,6 +20,7 @@ import { loginRequest } from "./authConfig";
 import { callMsGraph } from "./graph";
 
 import "./styles/App.css";
+import Archive from "./Pages/Archive/Archive.page";
 
 /**
  * Renders information about the signed-in user or a button to retrieve data about the user
@@ -70,6 +71,8 @@ const MainContent = (props) => {
                                     <Route path="/inbox/:id" element={<Application />}/>
                                     <Route path="/applicants" element={<Applicants />}/>
                                     <Route path="/applicants/:id" element={<Applicant />}/>
+                                    <Route path="/archive" element={<Archive />}/>
+                                    <Route path="/archive/:id" element={<Applicant />}/>
                                 </Routes>    
                             </Router>
                         </Col>

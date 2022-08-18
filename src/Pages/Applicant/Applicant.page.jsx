@@ -119,6 +119,20 @@ const Applicant = () => {
             })
     }
 
+    const handleArchive = () => {
+        fetch('https://hackathon-fnc.azurewebsites.net/api/applicant/'+location, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify({...formValue, status: 'archive'}),
+        })
+            .then(res => res.json())
+            .then(data => {
+                setDisabledSaveButton(true)
+            })
+            .catch(err => {
+                console.log("🚀 ~ file: Applicant.page.jsx ~ line 125 ~ handleSave ~ err", err)
+            })
+    }
     const handleOpenFileAttachment = () => {
         downloaFile(applicantData.attachmentData)
     }
@@ -253,7 +267,7 @@ const Applicant = () => {
                 </Form>
             </Card.Body>
             <Card.Footer className='text-right'>
-                <Button variant="warning" onClick={handleSave} disabled={disabledSaveButton}>Archive</Button>
+                <Button variant="warning" onClick={handleArchive} disabled={disabledSaveButton}>Archive</Button>
                 <Button className="ml-3" onClick={handleSave} disabled={disabledSaveButton}>Save</Button>
             </Card.Footer>
         </Card>

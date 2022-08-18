@@ -126,6 +126,21 @@ const Application = () => {
             })
     }
 
+    const handleArchive =() => {
+        fetch('https://hackathon-fnc.azurewebsites.net/api/save-applicant', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify({ ...formValue, status: 'archive'}),
+        })
+            .then(res => res.json())
+            .then(data => {
+                setDisabledSaveButton(true)
+            })
+            .catch(err => {
+                console.log("🚀 ~ file: Applicant.page.jsx ~ line 125 ~ handleSave ~ err", err)
+            })
+    }
+
     useEffect(() => {
         console.log('FORMVALUE: ', formValue);
         if (formValue && formValue.meetingStartTime) {
@@ -294,7 +309,7 @@ const Application = () => {
                 </Form>
             </Card.Body>
             <Card.Footer className='text-right'>
-                <Button variant="warning" onClick={handleSave} disabled={disabledSaveButton}>Archive</Button>
+                <Button variant="warning" onClick={handleArchive} disabled={disabledSaveButton}>Archive</Button>
                 <Button className="ml-3" onClick={handleSave} disabled={disabledSaveButton}>Save</Button>
             </Card.Footer>
         </Card>

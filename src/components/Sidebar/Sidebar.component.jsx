@@ -43,7 +43,7 @@ const Sidebar = props => {
                             <Drawer.Nav>
                                 <Drawer.Item href="/inbox">INBOX</Drawer.Item>                     
                                 <Drawer.Item href="/applicants">APPLICANTS</Drawer.Item>
-                                <Drawer.Item href="/applicants">ARCHIVED</Drawer.Item>
+                                <Drawer.Item href="/archive">ARCHIVED</Drawer.Item>
                                 {/* <Drawer.Item href="/" onClick={() => handleLogout()}>Logout</Drawer.Item> */}
                             </Drawer.Nav>
                         </div>
